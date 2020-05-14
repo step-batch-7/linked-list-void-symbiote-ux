@@ -71,15 +71,15 @@ Status add_unique(List_ptr list, Element value, Matcher matcher){
   return insert_at(list,value,list->length);
 };
 
-Status add_to_list( List_ptr list, Element value) {
+Status add_to_list(List_ptr list, Element value) {
   return insert_at(list, value, list->length);
 };
 
-Status add_to_start( List_ptr list, Element value) {
+Status add_to_start(List_ptr list, Element value) {
   return insert_at(list, value, 0);
 };
 
-Status is_equal( Element num1, Element num2){
+Status is_equal(Element num1, Element num2){
   return *( int *)num1 == *(int *)num2;
 };
 
@@ -109,7 +109,7 @@ List_ptr reverse(List_ptr list){
   return new_list;
 };
 
-Element inc_by_one( Element value ){
+Element inc_by_one(Element value ){
   int *num = malloc(sizeof(Element));
   *num = *(int *)value + 1;
   return num;
@@ -144,6 +144,22 @@ List_ptr filter(List_ptr list, Predicate predicate){
     p_walk = p_walk->next;
   }
   return new_list;
+};
+
+Element add(Element num1, Element num2){
+  int *sum = malloc(sizeof(int));
+  *sum = *(int *)num1 + *(int *)num2;
+  return sum;
+};
+
+Element reduce(List_ptr list,Element context, Reducer reducer ){
+  Node_ptr p_walk = list->first;
+  while ( p_walk != NULL)
+  {
+    context = (*reducer)(context, p_walk->element);
+    p_walk = p_walk->next;
+  }
+  return context;
 };
 
 void display_list(List_ptr list){

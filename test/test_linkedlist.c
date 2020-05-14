@@ -3,6 +3,34 @@
 #include<stdio.h>
 #include "../linkedlist.h"
 
+
+void assert_reduce(void){
+  printf("Reduce\n");
+  List_ptr list = create_list();
+  Reducer reducer = &add;
+  int *init = malloc(sizeof(Element));
+  *init = 0;
+  printf("should return initial value when list is empty\n");
+  Element total = reduce(list,init, reducer);
+  assert(*(int *)total == 0);
+  int *number = malloc(sizeof(Element));
+  *number = 1;
+  add_to_list(list,number);
+  *number = 2;
+  add_to_list(list,number);
+  *number = 3;
+  add_to_list(list,number);
+  *number = 4;
+  add_to_list(list,number);
+  printf("Passed\n");
+
+  printf("should give sum of numbers in the list\n");
+  *init = 0;
+  total = reduce(list,init, reducer);
+  assert(*(int *)total == 10);
+  printf("Passed\n");
+};
+
 void assert_filter(void){
   printf("Filter\n");
   List_ptr list = create_list();
@@ -226,5 +254,6 @@ int main(void){
   assert_reverse();
   assert_map();
   assert_filter();
+  assert_reduce();
   return  0;
 }

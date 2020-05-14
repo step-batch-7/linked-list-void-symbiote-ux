@@ -55,6 +55,7 @@ Element inc_by_one( Element value );
 List_ptr map(List_ptr, Mapper);
 Status is_even(void *value);
 List_ptr filter(List_ptr, Predicate);
+Element add( Element num1, Element num2);
 Element reduce(List_ptr, Element, Reducer);
 void forEach(List_ptr, ElementProcessor processor);
 
