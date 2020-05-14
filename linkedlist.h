@@ -45,6 +45,8 @@ List_ptr create_list(void);
 
 Status add_to_list(List_ptr, Element);
 Status add_to_start(List_ptr, Element);
+void update_linked_list(Node_ptr,Node_ptr,List_ptr,int);
+Node_ptr get_position(List_ptr list, int position);
 Status insert_at(List_ptr, Element element, int position);
 
 List_ptr reverse(List_ptr);
