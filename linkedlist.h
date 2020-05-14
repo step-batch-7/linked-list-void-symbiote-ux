@@ -57,6 +57,7 @@ Status is_even(void *value);
 List_ptr filter(List_ptr, Predicate);
 Element add( Element num1, Element num2);
 Element reduce(List_ptr, Element, Reducer);
+void inc_curr( Element value);
 void forEach(List_ptr, ElementProcessor processor);
 
 Element remove_from_start(List_ptr); // Returns Element which was removed

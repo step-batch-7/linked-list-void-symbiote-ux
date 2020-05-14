@@ -4,6 +4,33 @@
 #include "../linkedlist.h"
 
 
+void assert_for_each(void){
+  printf("For_Each\n");
+
+  printf("should iterate an empty list\n");
+  ElementProcessor processor = &inc_curr;
+  List_ptr list = create_list();
+  forEach( list ,processor);
+  assert(list->length == 0);
+  printf("Passed\n");
+
+  list = create_list();
+  printf("should increment given list by one\n");
+  int *number = malloc(sizeof(Element));
+  *number = 5;
+  add_to_list(list,number);
+  *number = 10;
+  add_to_list(list,number);
+  *number = 15;
+  add_to_list(list,number);
+  *number = 20;
+  add_to_list(list,number);
+  forEach( list ,processor);
+  assert(*(int *)list->first->element == 6);
+  assert(*(int *)list->last->element == 21);
+  printf("Passed\n");
+}
+
 void assert_reduce(void){
   printf("Reduce\n");
   List_ptr list = create_list();
@@ -255,5 +282,6 @@ int main(void){
   assert_map();
   assert_filter();
   assert_reduce();
+  assert_for_each();
   return  0;
 }
