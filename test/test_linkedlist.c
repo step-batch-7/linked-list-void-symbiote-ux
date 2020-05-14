@@ -3,6 +3,23 @@
 #include<stdio.h>
 #include "../linkedlist.h"
 
+void assert_reverse( void ){
+  printf("Reverse\n");
+  List_ptr list = create_list();
+  int *number = malloc(sizeof(Element));
+  *number = 1;
+  add_to_list(list,number);
+  *number = 2;
+  add_to_list(list,number);
+  *number = 3;
+  add_to_list(list,number);
+  List_ptr new_list = reverse(list);
+  assert(*( int *)new_list->first->element == 3);
+  assert(*( int *)new_list->first->next->element == 2);
+  assert(*( int *)new_list->last->element == 1);
+  printf("Passed\n");
+};
+
 void assert_remove_from_start(void) {
   printf("Remove_From_Start\n");
   List_ptr list = create_list();
@@ -154,5 +171,6 @@ int main(void){
   assert_add_to_start();
   assert_add_unique();
   assert_remove_from_start();
+  assert_reverse();
   return  0;
 }
