@@ -85,12 +85,19 @@ Status is_equal( Element num1, Element num2){
 
 Element remove_from_start(List_ptr list) {
   if(list->first == NULL) return NULL;
-  Node_ptr new_node = list->first->next;
   Element prev_element = list->first->element;
+  if(list->length == 1) {
+    list->first = NULL;
+    list->last = NULL;
+    list->length--;
+    return prev_element;
+  }
+  Node_ptr new_node = list->first->next;
   list->first = new_node;
   list->length--;
   return prev_element;
 };
+
 
 void display_list(List_ptr list){
   Node_ptr p_walk = list->first;
