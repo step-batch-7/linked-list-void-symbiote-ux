@@ -1,7 +1,81 @@
 #include <assert.h>
-#include <stdio.h>
-#include<stdio.h>
 #include "../linkedlist.h"
+
+void assert_remove_all_occurrences(void){
+  printf("Remove_All_Occurrences\n");
+  Matcher matcher = &is_equal;
+  List_ptr list = create_list();
+  int *num = malloc(sizeof(int));
+  *num = 100;
+  printf("should give empty list if the list is empty\n");
+  List_ptr result = remove_all_occurrences(list,num, matcher);
+  assert(result->first == NULL);
+  assert(result->last == NULL);
+  assert(result->length == 0);
+  printf("Passed\n");
+
+  printf("should give empty list if the num  is not present\n");
+  *num = 5;
+  add_to_list(list, num);
+  *num = 10;
+  add_to_list(list, num);
+  *num = 20;
+  result = remove_all_occurrences(list,num, matcher);
+  assert(result->first == NULL);
+  assert(result->last == NULL);
+  assert(result->length == 0);
+  printf("Passed\n");
+
+  printf("should give list of the num if num is present\n");
+  *num = 10;
+  add_to_list(list, num);
+  *num = 15;
+  add_to_list(list, num);
+  *num = 10;
+  result = remove_all_occurrences(list, num, matcher);
+  assert(result->length == 2);
+  assert(*(int *)result->first->element == 10);
+  assert(*(int *)result->last->element == 10);
+  assert(list->length == 2);
+  assert(*(int *)list->first->element == 5);
+  assert(*(int *)list->last->element == 15);
+  printf("Passed\n");
+};
+
+void assert_remove_first_occurrence(void){
+  printf("Remove_First_Occurrence\n");
+  List_ptr list = create_list();
+  Matcher matcher = &is_equal;
+  int *num = malloc(sizeof(Element));
+  *num = 5;
+  printf("should give null when list is empty\n");
+  assert(!remove_first_occurrence(list, num, matcher));
+  assert(list->length== 0);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  printf("Passed\n");
+
+  add_to_list(list,num);
+  *num = 10;
+  add_to_list(list,num);
+  *num = 10;
+  add_to_list(list,num);
+  *num = 10;
+  printf("should remove first occurrence of the num in list\n");
+  assert(*( int *)remove_first_occurrence(list, num, matcher) == 10);
+  assert(list->length == 2);
+  assert(*(int *)list->first->element == 5);
+  assert(*(int *)list->last->element == 10);
+  printf("Passed\n");
+
+  *num = 15;
+  printf("should give null  when num is not present in the list\n");
+  assert(!remove_first_occurrence(list,num,matcher));
+  assert(list->length == 2);
+  assert(*(int *)list->first->element == 5);
+  assert(*(int *)list->last->element == 10);
+  printf("Passed\n");
+};
 
 void assert_remove_at(void) {
   printf("Remove_At\n");
@@ -13,27 +87,29 @@ void assert_remove_at(void) {
   assert(list->length == 0);
   printf("Passed\n");
 
-  int *number = malloc(sizeof(Element));
-  *number = 5;
-  add_to_list(list, number);
-  *number = 10;
-  add_to_list(list, number);
-  *number = 20;
-  add_to_list(list, number);
-  *number = 30;
-  add_to_list(list, number);
-  *number = 40;
-  add_to_list(list, number);
-  printf("should remove the number from the middle of list\n");
-  assert(*(int *)remove_at(list,1) == 10);
+  int *num = malloc(sizeof(Element));
+  *num = 5;
+  add_to_list(list, num);
+  *num = 10;
+  add_to_list(list, num);
+  *num = 20;
+  add_to_list(list, num);
+  *num = 30;
+  add_to_list(list, num);
+  *num = 40;
+  add_to_list(list, num);
+
+  printf("should remove the num from the starting of list\n");
+  assert(*( int *)remove_at(list,0) == 5);
   assert(list->length == 4);
-  assert(*(int *)list->first->next->element == 20);
+  assert(*(int *)list->first->element == 10);
+  assert(*(int *)list->last->element == 40);
   printf("Passed\n");
 
-  printf("should remove the number from the starting of list\n");
-  assert(*( int *)remove_at(list,0) == 5);
+  printf("should remove the num from the middle of list\n");
+  assert(*(int *)remove_at(list,1) == 20);
   assert(list->length == 3);
-  assert(*(int *)list->first->element == 20);
+  assert(*(int *)list->first->next->element == 30);
   printf("Passed\n");
 
   printf("should remove the num from last of the list\n");
@@ -56,19 +132,19 @@ void assert_remove_from_end(void) {
   assert(list->length == 0);
   printf("Passed\n");
 
-  int *number = malloc(sizeof(Element));
-  *number = 5;
-  add_to_list(list, number);
-  *number = 10;
-  add_to_list(list,number);
-  printf("should remove number from last in the list\n");
+  int *num = malloc(sizeof(Element));
+  *num = 5;
+  add_to_list(list, num);
+  *num = 10;
+  add_to_list(list,num);
+  printf("should remove num from last in the list\n");
   assert(remove_from_end(list));
   assert(list->length == 1);
   assert(*(int *)list->first->element == 5);
   assert(*(int *)list->last->element == 5);
   printf("Passed\n");
 
-  printf("should remove number from the when single number is present\n");
+  printf("should remove num from the when single num is present\n");
   assert(remove_from_end(list));
   assert(list->first == NULL);
   assert(list->last == NULL);
@@ -224,13 +300,23 @@ void assert_remove_from_start(void) {
   assert(list->length == 0);
   printf("Passed\n");
 
-  printf("should remove first num from the list\n");
+  printf("should remove first num in a single list\n");
   int *num = malloc(sizeof(Element));
+  *num = 5;
+  add_to_list(list,num);
+  assert(*(int *)remove_from_start(list) == 5);
+  assert(list->length == 0);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  printf("Passed\n");
+
+  printf("should remove first num from the list\n");
   *num = 2;
   add_to_list(list, num);
   assert(*(int *)remove_from_start(list) == 2);
   assert(list->length == 0);
   assert(list->first == NULL);
+  assert(list->last == NULL);
   printf("Passed\n");
 
   printf("should remove first num from list when many nums are present\n");
@@ -374,5 +460,7 @@ int main(void){
   assert_clear_list();
   assert_remove_from_end();
   assert_remove_at();
+  assert_remove_first_occurrence();
+  assert_remove_all_occurrences();
   return  0;
 }

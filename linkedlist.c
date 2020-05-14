@@ -83,34 +83,35 @@ Status is_equal(Element num1, Element num2){
   return *( int *)num1 == *(int *)num2;
 };
 
-Element remove_from_start(List_ptr list) {
-  if(list->length == 0) return NULL;
-  Element prev_element = list->first->element;
-  if(list->length == 1) list->last = NULL;
-  Node_ptr  new_first = list->first->next;
-  free(list->first);
-  list->first = new_first;
-  list->length--;
-  return prev_element;
-};
-
 Element remove_at(List_ptr list, int position){
-  if(position > list->length || position < 0 ) return NULL;
-  if(position == 0 ) return remove_from_start(list);
+  if(list->first == NULL || position > list->length || position < 0) return NULL;
+  if(position == 0 ) {
+    Element removed_element = list->first->element;
+    Node_ptr new_first = list->first->next;
+    list->first = new_first;
+    if(list->length == 1) list->last = NULL;
+    list->length--;
+    return removed_element;
+  }
   Node_ptr p_walk = get_position(list,position);
-  Element prev_element = p_walk->next->element;
+  Element removed_element = p_walk->next->element;
   if(position + 1 == list->length) {
     list->last = p_walk;
     list->last->next = NULL;
-  } else {
+  } else { 
      Node_ptr next_pos = p_walk->next->next;
+     free(p_walk->next);
      p_walk->next = next_pos;
   }
   list->length--;
-  return prev_element;
+  return removed_element;
 };
 
-Element remove_from_end(List_ptr list) {
+Element remove_from_start(List_ptr list){
+  return remove_at(list,0);
+};
+
+Element remove_from_end(List_ptr list){
   return remove_at(list,list->length-1);
 };
 
@@ -205,6 +206,30 @@ Status clear_list( List_ptr list){
   list->last = NULL;
   list->length = 0;
   return Success;
+};
+
+List_ptr remove_all_occurrences(List_ptr list, Element element, Matcher matcher){
+  List_ptr result = create_list();
+  Node_ptr p_walk = list->first;
+  while(p_walk != NULL) {
+    Element new_element = remove_first_occurrence(list,element,matcher);
+    if(new_element == NULL) break;
+    add_to_list(result,new_element);
+    p_walk = p_walk->next;
+  }
+  return result;
+};
+
+Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher) {
+  Node_ptr p_walk = list->first;
+  int position = 0;
+  while(p_walk != NULL) {
+    Status is_succeed = (*matcher)(p_walk->element, element);
+    if(is_succeed) return remove_at(list,position);
+    p_walk = p_walk->next;
+    position++; 
+  }
+  return NULL;
 };
 
 void display_list(List_ptr list){
