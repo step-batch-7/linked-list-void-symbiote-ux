@@ -67,6 +67,13 @@ void assert_remove_from_end(void) {
   assert(*(int *)list->first->element == 5);
   assert(*(int *)list->last->element == 5);
   printf("Passed\n");
+
+  printf("should remove number from the when single number is present\n");
+  assert(remove_from_end(list));
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  assert(list->length == 0);
+  printf("Passed\n");
 };
 
 void assert_clear_list(void){
