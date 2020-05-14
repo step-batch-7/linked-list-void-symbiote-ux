@@ -51,6 +51,7 @@ Status insert_at(List_ptr, Element element, int position);
 
 List_ptr reverse(List_ptr);
 
+Element inc_by_one( Element value );
 List_ptr map(List_ptr, Mapper);
 List_ptr filter(List_ptr, Predicate);
 Element reduce(List_ptr, Element, Reducer);

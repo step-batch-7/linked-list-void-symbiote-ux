@@ -109,6 +109,26 @@ List_ptr reverse(List_ptr list){
   return new_list;
 };
 
+Element inc_by_one( Element value ){
+  int *num = malloc(sizeof(Element));
+  *num = *(int *)value + 1;
+  return num;
+};
+
+List_ptr map( List_ptr list, Mapper mapper){
+  Node_ptr p_walk = list->first;
+  List_ptr new_list = create_list();
+  int pos = 0;
+  while ( p_walk != NULL)
+  {
+    Element value = (*mapper)(p_walk->element);
+    insert_at( new_list,value,pos);
+    p_walk = p_walk->next;
+    pos++;
+  }
+  return new_list;
+};
+
 void display_list(List_ptr list){
   Node_ptr p_walk = list->first;
   while (p_walk != NULL)

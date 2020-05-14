@@ -3,16 +3,42 @@
 #include<stdio.h>
 #include "../linkedlist.h"
 
+void assert_map() {
+  printf("Map\n");
+  Mapper mapper = &inc_by_one;
+  List_ptr list = create_list();
+
+  printf("Should return empty list when empty list is given\n");
+  List_ptr new_list = map(list, mapper);
+  assert(new_list->length == 0);
+  printf("Passed\n");
+
+  printf("should return new list after increasing each num by one\n");
+  int *num = malloc(sizeof(Element));
+  *num = 5;
+  add_to_list(list,num);
+  *num = 10;
+  add_to_list(list,num);
+  *num = 15;
+  add_to_list(list,num);
+  new_list = map(list, mapper);
+  assert(new_list->length == 3);
+  assert(*(int *)new_list->first->element == 6);
+  assert(*(int *)new_list->first->next->element == 11);
+  assert(*(int *)new_list->last->element == 16);
+  printf("Passed\n");
+};
+
 void assert_reverse( void ){
   printf("Reverse\n");
   List_ptr list = create_list();
-  int *number = malloc(sizeof(Element));
-  *number = 1;
-  add_to_list(list,number);
-  *number = 2;
-  add_to_list(list,number);
-  *number = 3;
-  add_to_list(list,number);
+  int *num = malloc(sizeof(Element));
+  *num = 1;
+  add_to_list(list,num);
+  *num = 2;
+  add_to_list(list,num);
+  *num = 3;
+  add_to_list(list,num);
   List_ptr new_list = reverse(list);
   assert(*( int *)new_list->first->element == 3);
   assert(*( int *)new_list->first->next->element == 2);
@@ -30,19 +56,19 @@ void assert_remove_from_start(void) {
   printf("Passed\n");
 
   printf("should remove first num from the list\n");
-  int *number = malloc(sizeof(Element));
-  *number = 2;
-  add_to_list(list, number);
+  int *num = malloc(sizeof(Element));
+  *num = 2;
+  add_to_list(list, num);
   assert(*(int *)remove_from_start(list) == 2);
   assert(list->length == 0);
   assert(list->first == NULL);
   printf("Passed\n");
 
-  printf("should remove first num from list when many numbers are present\n");
-  *number = 3;
-  insert_at(list, number, 0);
-  *number = 4;
-  insert_at(list, number, 1);
+  printf("should remove first num from list when many nums are present\n");
+  *num = 3;
+  insert_at(list, num, 0);
+  *num = 4;
+  insert_at(list, num, 1);
   Element value = remove_from_start(list);
   assert(*(int *)value == 3);
   assert(list->length == 1);
@@ -63,7 +89,7 @@ void assert_add_unique(void){
   *num = 3;
   add_unique(list, num, matcher);
 
-  printf("Should add number at last when num is not present\n");
+  printf("Should add num at last when num is not present\n");
   *num = 4;
   assert(add_unique(list, num , matcher));
   assert(list->length == 4);
@@ -172,5 +198,6 @@ int main(void){
   assert_add_unique();
   assert_remove_from_start();
   assert_reverse();
+  assert_map();
   return  0;
 }
