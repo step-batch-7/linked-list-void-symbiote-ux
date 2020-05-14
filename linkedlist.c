@@ -35,6 +35,16 @@ Node_ptr get_position(List_ptr list, int position) {
   return p_walk;
 };
 
+Status is_value_present(List_ptr list, Element value, Matcher matcher) {
+  Node_ptr p_walk = list->first;
+  while (p_walk != NULL)
+  {
+    if((*matcher)(p_walk->element, value)) return Success;
+    p_walk = p_walk->next;
+  }
+  return Failure;
+};
+
 Status insert_at(List_ptr list, Element element, int position) {
   if(position > list->length || position < 0) return Failure;
   Node_ptr new_node = create_node(element);
@@ -56,12 +66,21 @@ Status insert_at(List_ptr list, Element element, int position) {
     return Success;
 };
 
+Status add_unique(List_ptr list, Element value, Matcher matcher){
+  if(is_value_present(list, value, matcher)) return Failure;
+  return insert_at(list,value,list->length);
+};
+
 Status add_to_list( List_ptr list, Element value) {
   return insert_at(list, value, list->length);
 };
 
 Status add_to_start( List_ptr list, Element value) {
   return insert_at(list, value, 0);
+};
+
+Status is_equal( Element num1, Element num2){
+  return *( int *)num1 == *(int *)num2;
 };
 
 void display_list(List_ptr list){
