@@ -4,6 +4,22 @@
 #include "../linkedlist.h"
 
 
+void assert_clear_list(void){
+  printf("Clear_list\n");
+  List_ptr list = create_list();
+  printf("should clear all the element of the list\n");
+  int *number = malloc(sizeof(Element));
+  *number = 5;
+  add_to_list(list,number);
+  *number = 10;
+  add_to_list(list,number);
+  clear_list(list);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  assert(list->length == 0);
+  printf("Passed\n");
+};
+
 void assert_for_each(void){
   printf("For_Each\n");
 
@@ -29,7 +45,7 @@ void assert_for_each(void){
   assert(*(int *)list->first->element == 6);
   assert(*(int *)list->last->element == 21);
   printf("Passed\n");
-}
+};
 
 void assert_reduce(void){
   printf("Reduce\n");
@@ -283,5 +299,6 @@ int main(void){
   assert_filter();
   assert_reduce();
   assert_for_each();
+  assert_clear_list();
   return  0;
 }

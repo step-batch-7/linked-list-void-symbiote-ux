@@ -176,6 +176,21 @@ void forEach(List_ptr list, ElementProcessor processor) {
   }
 };
 
+Status clear_list( List_ptr list){
+  Node_ptr p_walk = list->first;
+  Node_ptr element_to_free = NULL;
+  while (p_walk != NULL)
+  {
+    element_to_free = p_walk;
+    p_walk = p_walk->next;
+    free(element_to_free);
+  }
+  list->first = NULL;
+  list->last = NULL;
+  list->length = 0;
+  return Success;
+};
+
 void display_list(List_ptr list){
   Node_ptr p_walk = list->first;
   while (p_walk != NULL)
