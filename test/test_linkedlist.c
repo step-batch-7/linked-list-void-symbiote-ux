@@ -3,6 +3,37 @@
 #include<stdio.h>
 #include "../linkedlist.h"
 
+void assert_remove_from_start(void) {
+  printf("Remove_From_Start\n");
+  List_ptr list = create_list();
+
+  printf("Should return null when list is empty\n");
+  assert(!remove_from_start(list));
+  assert(list->length == 0);
+  printf("Passed\n");
+
+  printf("should remove first num from the list\n");
+  int *number = malloc(sizeof(Element));
+  *number = 2;
+  add_to_list(list, number);
+  assert(*(int *)remove_from_start(list) == 2);
+  assert(list->length == 0);
+  assert(list->first == NULL);
+  printf("Passed\n");
+
+  printf("should remove first num from list when many numbers are present\n");
+  *number = 3;
+  insert_at(list, number, 0);
+  *number = 4;
+  insert_at(list, number, 1);
+  Element value = remove_from_start(list);
+  assert(*(int *)value == 3);
+  assert(list->length == 1);
+  assert(*(int *)list->last->element== 4);
+  assert(*(int *)list->first->element == 4);
+  printf("Passed\n");
+};
+
 void assert_add_unique(void){
   printf("Add_Unique\n");
   List_ptr list = create_list();
@@ -122,5 +153,6 @@ int main(void){
   assert_add_to_list();
   assert_add_to_start();
   assert_add_unique();
+  assert_remove_from_start();
   return  0;
 }
