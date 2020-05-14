@@ -139,7 +139,8 @@ List_ptr filter(List_ptr list, Predicate predicate){
   List_ptr  new_list = create_list();
   while ( p_walk != NULL)
   {
-    if((*predicate)(p_walk->element)) add_to_list(new_list, p_walk->element);
+    Status is_succeed = (*predicate)(p_walk->element);
+    if(is_succeed) add_to_list(new_list, p_walk->element);
     p_walk = p_walk->next;
   }
   return new_list;
