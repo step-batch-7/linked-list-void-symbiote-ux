@@ -208,18 +208,6 @@ Status clear_list( List_ptr list){
   return Success;
 };
 
-List_ptr remove_all_occurrences(List_ptr list, Element element, Matcher matcher){
-  List_ptr result = create_list();
-  Node_ptr p_walk = list->first;
-  while(p_walk != NULL) {
-    Element new_element = remove_first_occurrence(list,element,matcher);
-    if(new_element == NULL) break;
-    add_to_list(result,new_element);
-    p_walk = p_walk->next;
-  }
-  return result;
-};
-
 Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher) {
   Node_ptr p_walk = list->first;
   int position = 0;

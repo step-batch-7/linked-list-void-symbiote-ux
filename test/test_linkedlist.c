@@ -1,47 +1,6 @@
 #include <assert.h>
 #include "../linkedlist.h"
 
-void assert_remove_all_occurrences(void){
-  printf("Remove_All_Occurrences\n");
-  Matcher matcher = &is_equal;
-  List_ptr list = create_list();
-  int *num = malloc(sizeof(int));
-  *num = 100;
-  printf("should give empty list if the list is empty\n");
-  List_ptr result = remove_all_occurrences(list,num, matcher);
-  assert(result->first == NULL);
-  assert(result->last == NULL);
-  assert(result->length == 0);
-  printf("Passed\n");
-
-  printf("should give empty list if the num  is not present\n");
-  *num = 5;
-  add_to_list(list, num);
-  *num = 10;
-  add_to_list(list, num);
-  *num = 20;
-  result = remove_all_occurrences(list,num, matcher);
-  assert(result->first == NULL);
-  assert(result->last == NULL);
-  assert(result->length == 0);
-  printf("Passed\n");
-
-  printf("should give list of the num if num is present\n");
-  *num = 10;
-  add_to_list(list, num);
-  *num = 15;
-  add_to_list(list, num);
-  *num = 10;
-  result = remove_all_occurrences(list, num, matcher);
-  assert(result->length == 2);
-  assert(*(int *)result->first->element == 10);
-  assert(*(int *)result->last->element == 10);
-  assert(list->length == 2);
-  assert(*(int *)list->first->element == 5);
-  assert(*(int *)list->last->element == 15);
-  printf("Passed\n");
-};
-
 void assert_remove_first_occurrence(void){
   printf("Remove_First_Occurrence\n");
   List_ptr list = create_list();
@@ -461,6 +420,5 @@ int main(void){
   assert_remove_from_end();
   assert_remove_at();
   assert_remove_first_occurrence();
-  assert_remove_all_occurrences();
   return  0;
 }
