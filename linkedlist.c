@@ -115,7 +115,7 @@ Element inc_by_one( Element value ){
   return num;
 };
 
-List_ptr map( List_ptr list, Mapper mapper){
+List_ptr map(List_ptr list, Mapper mapper){
   Node_ptr p_walk = list->first;
   List_ptr new_list = create_list();
   int pos = 0;
@@ -125,6 +125,22 @@ List_ptr map( List_ptr list, Mapper mapper){
     insert_at( new_list,value,pos);
     p_walk = p_walk->next;
     pos++;
+  }
+  return new_list;
+};
+
+
+Status is_even(void *value) {
+  return !(*(int *)value % 2);
+};
+
+List_ptr filter(List_ptr list, Predicate predicate){
+  Node_ptr p_walk = list->first;
+  List_ptr  new_list = create_list();
+  while ( p_walk != NULL)
+  {
+    if((*predicate)(p_walk->element)) add_to_list(new_list, p_walk->element);
+    p_walk = p_walk->next;
   }
   return new_list;
 };

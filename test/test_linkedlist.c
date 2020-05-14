@@ -3,6 +3,32 @@
 #include<stdio.h>
 #include "../linkedlist.h"
 
+void assert_filter(void){
+  printf("Filter\n");
+  List_ptr list = create_list();
+  Predicate predicate = &is_even;
+  printf("Should return empty list when list is empty\n");
+  List_ptr new_list = filter(list, predicate);
+  assert(new_list->length == 0);
+  printf("Passed\n");
+
+  printf("should filter the list and give back even number list\n");
+  int *number = malloc(sizeof(Element));
+  *number = 5;
+  add_to_list(list,number);
+  *number = 10;
+  add_to_list(list,number);
+  *number = 15;
+  add_to_list(list,number);
+  *number = 20;
+  add_to_list(list,number);
+  new_list = filter(list, predicate);
+  assert(new_list->length == 2);
+  assert(*(int *)new_list->first->element == 10);
+  assert(*(int *)new_list->last->element == 20);
+  printf("Passed\n");
+};
+
 void assert_map() {
   printf("Map\n");
   Mapper mapper = &inc_by_one;
@@ -199,5 +225,6 @@ int main(void){
   assert_remove_from_start();
   assert_reverse();
   assert_map();
+  assert_filter();
   return  0;
 }
