@@ -8,11 +8,11 @@ void assert_clear_list(void){
   printf("Clear_list\n");
   List_ptr list = create_list();
   printf("should clear all the element of the list\n");
-  int *number = malloc(sizeof(Element));
-  *number = 5;
-  add_to_list(list,number);
-  *number = 10;
-  add_to_list(list,number);
+  int *num = malloc(sizeof(Element));
+  *num = 5;
+  add_to_list(list,num);
+  *num = 10;
+  add_to_list(list,num);
   clear_list(list);
   assert(list->first == NULL);
   assert(list->last == NULL);
@@ -32,15 +32,15 @@ void assert_for_each(void){
 
   list = create_list();
   printf("should increment given list by one\n");
-  int *number = malloc(sizeof(Element));
-  *number = 5;
-  add_to_list(list,number);
-  *number = 10;
-  add_to_list(list,number);
-  *number = 15;
-  add_to_list(list,number);
-  *number = 20;
-  add_to_list(list,number);
+  int *num = malloc(sizeof(Element));
+  *num = 5;
+  add_to_list(list,num);
+  *num = 10;
+  add_to_list(list,num);
+  *num = 15;
+  add_to_list(list,num);
+  *num = 20;
+  add_to_list(list,num);
   forEach( list ,processor);
   assert(*(int *)list->first->element == 6);
   assert(*(int *)list->last->element == 21);
@@ -56,18 +56,18 @@ void assert_reduce(void){
   printf("should return initial value when list is empty\n");
   Element total = reduce(list,init, reducer);
   assert(*(int *)total == 0);
-  int *number = malloc(sizeof(Element));
-  *number = 1;
-  add_to_list(list,number);
-  *number = 2;
-  add_to_list(list,number);
-  *number = 3;
-  add_to_list(list,number);
-  *number = 4;
-  add_to_list(list,number);
+  int *num = malloc(sizeof(Element));
+  *num = 1;
+  add_to_list(list,num);
+  *num = 2;
+  add_to_list(list,num);
+  *num = 3;
+  add_to_list(list,num);
+  *num = 4;
+  add_to_list(list,num);
   printf("Passed\n");
 
-  printf("should give sum of numbers in the list\n");
+  printf("should give sum of nums in the list\n");
   *init = 0;
   total = reduce(list,init, reducer);
   assert(*(int *)total == 10);
@@ -79,24 +79,24 @@ void assert_filter(void){
   List_ptr list = create_list();
   Predicate predicate = &is_even;
   printf("Should return empty list when list is empty\n");
-  List_ptr new_list = filter(list, predicate);
-  assert(new_list->length == 0);
+  List_ptr result = filter(list, predicate);
+  assert(result->length == 0);
   printf("Passed\n");
 
-  printf("should filter the list and give back even number list\n");
-  int *number = malloc(sizeof(Element));
-  *number = 5;
-  add_to_list(list,number);
-  *number = 10;
-  add_to_list(list,number);
-  *number = 15;
-  add_to_list(list,number);
-  *number = 20;
-  add_to_list(list,number);
-  new_list = filter(list, predicate);
-  assert(new_list->length == 2);
-  assert(*(int *)new_list->first->element == 10);
-  assert(*(int *)new_list->last->element == 20);
+  printf("should filter the list and give back even num list\n");
+  int *num = malloc(sizeof(Element));
+  *num = 5;
+  add_to_list(list,num);
+  *num = 10;
+  add_to_list(list,num);
+  *num = 15;
+  add_to_list(list,num);
+  *num = 20;
+  add_to_list(list,num);
+  result = filter(list, predicate);
+  assert(result->length == 2);
+  assert(*(int *)result->first->element == 10);
+  assert(*(int *)result->last->element == 20);
   printf("Passed\n");
 };
 
@@ -106,8 +106,8 @@ void assert_map() {
   List_ptr list = create_list();
 
   printf("Should return empty list when empty list is given\n");
-  List_ptr new_list = map(list, mapper);
-  assert(new_list->length == 0);
+  List_ptr result = map(list, mapper);
+  assert(result->length == 0);
   printf("Passed\n");
 
   printf("should return new list after increasing each num by one\n");
@@ -118,11 +118,11 @@ void assert_map() {
   add_to_list(list,num);
   *num = 15;
   add_to_list(list,num);
-  new_list = map(list, mapper);
-  assert(new_list->length == 3);
-  assert(*(int *)new_list->first->element == 6);
-  assert(*(int *)new_list->first->next->element == 11);
-  assert(*(int *)new_list->last->element == 16);
+  result = map(list, mapper);
+  assert(result->length == 3);
+  assert(*(int *)result->first->element == 6);
+  assert(*(int *)result->first->next->element == 11);
+  assert(*(int *)result->last->element == 16);
   printf("Passed\n");
 };
 
@@ -136,10 +136,10 @@ void assert_reverse( void ){
   add_to_list(list,num);
   *num = 3;
   add_to_list(list,num);
-  List_ptr new_list = reverse(list);
-  assert(*( int *)new_list->first->element == 3);
-  assert(*( int *)new_list->first->next->element == 2);
-  assert(*( int *)new_list->last->element == 1);
+  List_ptr result = reverse(list);
+  assert(*( int *)result->first->element == 3);
+  assert(*( int *)result->first->next->element == 2);
+  assert(*( int *)result->last->element == 1);
   printf("Passed\n");
 };
 
