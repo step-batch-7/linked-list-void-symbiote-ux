@@ -84,18 +84,34 @@ Status is_equal(Element num1, Element num2){
 };
 
 Element remove_from_start(List_ptr list) {
-  if(list->first == NULL) return NULL;
+  if(list->length == 0) return NULL;
   Element prev_element = list->first->element;
-  if(list->length == 1) {
-    list->first = NULL;
-    list->last = NULL;
-    list->length--;
-    return prev_element;
-  }
-  Node_ptr new_node = list->first->next;
-  list->first = new_node;
+  if(list->length == 1) list->last = NULL;
+  Node_ptr  new_first = list->first->next;
+  free(list->first);
+  list->first = new_first;
   list->length--;
   return prev_element;
+};
+
+Element remove_at(List_ptr list, int position){
+  if(position > list->length || position < 0 ) return NULL;
+  if(position == 0 ) return remove_from_start(list);
+  Node_ptr p_walk = get_position(list,position);
+  Element prev_element = p_walk->next->element;
+  if(position + 1 == list->length) {
+    list->last = p_walk;
+    list->last->next = NULL;
+  } else {
+     Node_ptr next_pos = p_walk->next->next;
+     p_walk->next = next_pos;
+  }
+  list->length--;
+  return prev_element;
+};
+
+Element remove_from_end(List_ptr list) {
+  return remove_at(list,list->length-1);
 };
 
 List_ptr reverse(List_ptr list){

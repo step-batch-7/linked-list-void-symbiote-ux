@@ -3,6 +3,71 @@
 #include<stdio.h>
 #include "../linkedlist.h"
 
+void assert_remove_at(void) {
+  printf("Remove_At\n");
+  List_ptr list = create_list();
+  printf("should return null when list is empty\n");
+  assert(!remove_at(list,1));
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  assert(list->length == 0);
+  printf("Passed\n");
+
+  int *number = malloc(sizeof(Element));
+  *number = 5;
+  add_to_list(list, number);
+  *number = 10;
+  add_to_list(list, number);
+  *number = 20;
+  add_to_list(list, number);
+  *number = 30;
+  add_to_list(list, number);
+  *number = 40;
+  add_to_list(list, number);
+  printf("should remove the number from the middle of list\n");
+  assert(*(int *)remove_at(list,1) == 10);
+  assert(list->length == 4);
+  assert(*(int *)list->first->next->element == 20);
+  printf("Passed\n");
+
+  printf("should remove the number from the starting of list\n");
+  assert(*( int *)remove_at(list,0) == 5);
+  assert(list->length == 3);
+  assert(*(int *)list->first->element == 20);
+  printf("Passed\n");
+
+  printf("should remove the num from last of the list\n");
+  assert(*(int *)remove_at(list,2) == 40);
+  assert(list->length == 2);
+  assert(*(int *)list->last->element == 30);
+  printf("Passed\n");
+
+  printf("should give null when invalid position is given\n");
+  assert(!remove_at(list,10));
+  assert(list->length == 2);
+  printf("Passed\n");
+};
+
+void assert_remove_from_end(void) {
+  printf("Remove_From_End\n");
+  List_ptr list = create_list();
+  printf("should give null if list is empty\n");
+  assert(!remove_from_end(list));
+  assert(list->length == 0);
+  printf("Passed\n");
+
+  int *number = malloc(sizeof(Element));
+  *number = 5;
+  add_to_list(list, number);
+  *number = 10;
+  add_to_list(list,number);
+  printf("should remove number from last in the list\n");
+  assert(remove_from_end(list));
+  assert(list->length == 1);
+  assert(*(int *)list->first->element == 5);
+  assert(*(int *)list->last->element == 5);
+  printf("Passed\n");
+};
 
 void assert_clear_list(void){
   printf("Clear_list\n");
@@ -300,5 +365,7 @@ int main(void){
   assert_reduce();
   assert_for_each();
   assert_clear_list();
+  assert_remove_from_end();
+  assert_remove_at();
   return  0;
 }
