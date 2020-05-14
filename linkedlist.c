@@ -60,6 +60,10 @@ Status add_to_list( List_ptr list, Element value) {
   return insert_at(list, value, list->length);
 };
 
+Status add_to_start( List_ptr list, Element value) {
+  return insert_at(list, value, 0);
+};
+
 void display_list(List_ptr list){
   Node_ptr p_walk = list->first;
   while (p_walk != NULL)

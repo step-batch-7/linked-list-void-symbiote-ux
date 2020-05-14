@@ -3,6 +3,31 @@
 #include<stdio.h>
 #include "../linkedlist.h"
 
+void assert_add_to_start(void){
+  printf("Add_To_Start\n");
+  List_ptr list = create_list();
+  int *num = malloc(sizeof(Element));
+
+  printf("Should add num to start when list is empty\n");
+  *num = 2;
+  assert(add_to_start(list , num));
+  assert(list->length == 1);
+  assert(*(int *)list->first->element == 2);
+  assert(*(int *)list->last->element == 2);
+  printf("Passed\n");
+
+  printf("Should add the num when list is not empty\n");
+  *num = 3;
+  add_to_start(list, num);
+  *num = 4;
+  add_to_start(list, num);
+  *num = 5;
+  assert(add_to_start(list, num));
+  assert(*(int *)list->first->element == 5);
+  assert(list->length == 4);
+  printf("Passed\n");
+};
+
 void assert_add_to_list(void){
   printf("Add_To_List\n");
   List_ptr list = create_list();
