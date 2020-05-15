@@ -1,6 +1,50 @@
 #include <assert.h>
 #include "../linkedlist.h"
 
+void assert_remove_all_occurrences(void){
+  printf("Remove_All_Occurrences\n");
+  Matcher matcher = &is_equal;
+  List_ptr list = create_list();
+  int *num1 = malloc(sizeof(int));
+  *num1 = 100;
+  printf("should give empty list if the list is empty\n");
+  List_ptr result = remove_all_occurrences(list,num1, matcher);
+  assert(result->first == NULL);
+  assert(result->last == NULL);
+  assert(result->length == 0);
+  printf("Passed\n");
+
+  printf("should give empty list if the num  is not present\n");
+  int *num2 = malloc(sizeof(int));
+  *num2 = 5;
+  add_to_list(list, num2);
+  int *num3 = malloc(sizeof(int));
+  *num3 = 10;
+  add_to_list(list, num3);
+  int *num4 = malloc(sizeof(int));
+  *num4 = 20;
+  result = remove_all_occurrences(list,num4, matcher);
+  assert(result->first == NULL);
+  assert(result->last == NULL);
+  assert(result->length == 0);
+  printf("Passed\n");
+
+  printf("should give list of the num if num is present\n");
+  int *num5 = malloc(sizeof(int));
+  *num5 = 5;
+  add_to_list(list, num5);
+  int *num6 = malloc(sizeof(int));
+  *num6 = 5;
+  result = remove_all_occurrences(list, num6, matcher);
+  assert(result->length == 2);
+  assert(*(int *)result->first->element == 5);
+  assert(*(int *)result->last->element == 5);
+  assert(list->length == 1);
+  assert(*(int *)list->first->element == 10);
+  assert(*(int *)list->last->element == 10);
+  printf("Passed\n");
+};
+
 void assert_remove_first_occurrence(void){
   printf("Remove_First_Occurrence\n");
   List_ptr list = create_list();
@@ -15,21 +59,25 @@ void assert_remove_first_occurrence(void){
   printf("Passed\n");
 
   add_to_list(list,num);
-  *num = 10;
-  add_to_list(list,num);
-  *num = 10;
-  add_to_list(list,num);
-  *num = 10;
+  int *num1 = malloc(sizeof(Element));
+  *num1 = 10;
+  add_to_list(list,num1);
+  int *num2 = malloc(sizeof(Element));
+  *num2 = 10;
+  add_to_list(list,num2);
+  int *num3 = malloc(sizeof(Element));
+  *num3 = 10;
   printf("should remove first occurrence of the num in list\n");
-  assert(*( int *)remove_first_occurrence(list, num, matcher) == 10);
+  assert(remove_first_occurrence(list, num3, matcher) == num1);
   assert(list->length == 2);
   assert(*(int *)list->first->element == 5);
   assert(*(int *)list->last->element == 10);
   printf("Passed\n");
 
-  *num = 15;
+  int *num4 = malloc(sizeof(Element));
+  *num4 = 15;
   printf("should give null  when num is not present in the list\n");
-  assert(!remove_first_occurrence(list,num,matcher));
+  assert(!remove_first_occurrence(list,num4,matcher));
   assert(list->length == 2);
   assert(*(int *)list->first->element == 5);
   assert(*(int *)list->last->element == 10);
@@ -46,35 +94,29 @@ void assert_remove_at(void) {
   assert(list->length == 0);
   printf("Passed\n");
 
-  int *num = malloc(sizeof(Element));
-  *num = 5;
-  add_to_list(list, num);
-  *num = 10;
-  add_to_list(list, num);
-  *num = 20;
-  add_to_list(list, num);
-  *num = 30;
-  add_to_list(list, num);
-  *num = 40;
-  add_to_list(list, num);
-
+  int *num1 = malloc(sizeof(Element));
+  *num1 = 5;
+  add_to_list(list, num1);
+  int *num2 = malloc(sizeof(Element));
+  *num2 = 10;
+  add_to_list(list,num2);
+  int *num3 = malloc(sizeof(Element));
+  *num3 = 15;
+  add_to_list(list, num3);
+  int *num4 = malloc(sizeof(Element));
+  *num4 = 20;
+  add_to_list(list,num4);
   printf("should remove the num from the starting of list\n");
-  assert(*( int *)remove_at(list,0) == 5);
-  assert(list->length == 4);
+  assert(remove_at(list,0) == num1);
+  assert(list->length == 3);
   assert(*(int *)list->first->element == 10);
-  assert(*(int *)list->last->element == 40);
+  assert(*(int *)list->last->element == 20);
   printf("Passed\n");
 
   printf("should remove the num from the middle of list\n");
-  assert(*(int *)remove_at(list,1) == 20);
-  assert(list->length == 3);
-  assert(*(int *)list->first->next->element == 30);
-  printf("Passed\n");
-
-  printf("should remove the num from last of the list\n");
-  assert(*(int *)remove_at(list,2) == 40);
+  assert(remove_at(list,1) == num3);
   assert(list->length == 2);
-  assert(*(int *)list->last->element == 30);
+  assert(*(int *)list->first->next->element == 20);
   printf("Passed\n");
 
   printf("should give null when invalid position is given\n");
@@ -132,11 +174,12 @@ void assert_remove_from_end(void) {
   assert(list->length == 0);
   printf("Passed\n");
 
-  int *num = malloc(sizeof(Element));
-  *num = 5;
-  add_to_list(list, num);
-  *num = 10;
-  add_to_list(list,num);
+  int *num1 = malloc(sizeof(Element));
+  *num1 = 5;
+  add_to_list(list, num1);
+  int *num2 = malloc(sizeof(Element));
+  *num2 = 10;
+  add_to_list(list,num2);
   printf("should remove num from last in the list\n");
   assert(remove_from_end(list));
   assert(list->length == 1);
@@ -180,18 +223,15 @@ void assert_for_each(void){
 
   list = create_list();
   printf("should increment given list by one\n");
-  int *num = malloc(sizeof(Element));
-  *num = 5;
-  add_to_list(list,num);
-  *num = 10;
-  add_to_list(list,num);
-  *num = 15;
-  add_to_list(list,num);
-  *num = 20;
-  add_to_list(list,num);
+  int *num1 = malloc(sizeof(Element));
+  *num1 = 5;
+  add_to_list(list,num1);
+  int *num2 = malloc(sizeof(Element));
+  *num2 = 10;
+  add_to_list(list,num2);;
   forEach( list ,processor);
   assert(*(int *)list->first->element == 6);
-  assert(*(int *)list->last->element == 21);
+  assert(*(int *)list->last->element == 11);
   printf("Passed\n");
 };
 
@@ -204,21 +244,18 @@ void assert_reduce(void){
   printf("should return initial value when list is empty\n");
   Element total = reduce(list,init, reducer);
   assert(*(int *)total == 0);
-  int *num = malloc(sizeof(Element));
-  *num = 1;
-  add_to_list(list,num);
-  *num = 2;
-  add_to_list(list,num);
-  *num = 3;
-  add_to_list(list,num);
-  *num = 4;
-  add_to_list(list,num);
   printf("Passed\n");
 
+  int *num1 = malloc(sizeof(Element));
+  *num1 = 5;
+  add_to_list(list,num1);
+  int *num2 = malloc(sizeof(Element));
+  *num2 = 10;
+  add_to_list(list,num2);
   printf("should give sum of nums in the list\n");
   *init = 0;
   total = reduce(list,init, reducer);
-  assert(*(int *)total == 10);
+  assert(*(int *)total == 15);
   printf("Passed\n");
 };
 
@@ -232,19 +269,16 @@ void assert_filter(void){
   printf("Passed\n");
 
   printf("should filter the list and give back even num list\n");
-  int *num = malloc(sizeof(Element));
-  *num = 5;
-  add_to_list(list,num);
-  *num = 10;
-  add_to_list(list,num);
-  *num = 15;
-  add_to_list(list,num);
-  *num = 20;
-  add_to_list(list,num);
+ int *num1 = malloc(sizeof(Element));
+  *num1 = 5;
+  add_to_list(list,num1);
+  int *num2 = malloc(sizeof(Element));
+  *num2 = 10;
+  add_to_list(list,num2);
   result = filter(list, predicate);
-  assert(result->length == 2);
+  assert(result->length == 1);
   assert(*(int *)result->first->element == 10);
-  assert(*(int *)result->last->element == 20);
+  assert(*(int *)result->last->element == 10);
   printf("Passed\n");
 };
 
@@ -259,34 +293,32 @@ void assert_map() {
   printf("Passed\n");
 
   printf("should return new list after increasing each num by one\n");
-  int *num = malloc(sizeof(Element));
-  *num = 5;
-  add_to_list(list,num);
-  *num = 10;
-  add_to_list(list,num);
-  *num = 15;
-  add_to_list(list,num);
+  int *num1 = malloc(sizeof(Element));
+  *num1 = 5;
+  add_to_list(list,num1);
+  int *num2 = malloc(sizeof(Element));
+  *num2 = 10;
+  add_to_list(list,num2);
   result = map(list, mapper);
-  assert(result->length == 3);
+  assert(result->length == 2);
   assert(*(int *)result->first->element == 6);
   assert(*(int *)result->first->next->element == 11);
-  assert(*(int *)result->last->element == 16);
+  assert(*(int *)result->last->element == 11);
   printf("Passed\n");
 };
 
 void assert_reverse( void ){
   printf("Reverse\n");
   List_ptr list = create_list();
-  int *num = malloc(sizeof(Element));
-  *num = 1;
-  add_to_list(list,num);
-  *num = 2;
-  add_to_list(list,num);
-  *num = 3;
-  add_to_list(list,num);
+  int *num1 = malloc(sizeof(Element));
+  *num1 = 1;
+  add_to_list(list,num1);
+  int *num2 = malloc(sizeof(Element));
+  *num2 = 2;
+  add_to_list(list,num2);
   List_ptr result = reverse(list);
-  assert(*( int *)result->first->element == 3);
-  assert(*( int *)result->first->next->element == 2);
+  assert(*( int *)result->first->element == 2);
+  assert(*( int *)result->first->next->element == 1);
   assert(*( int *)result->last->element == 1);
   printf("Passed\n");
 };
@@ -295,25 +327,22 @@ void assert_add_unique(void){
   printf("Add_Unique\n");
   List_ptr list = create_list();
   Matcher matcher = &is_equal;
-  int *num = malloc(sizeof(Element));
-  *num = 1;
-  add_unique(list, num, matcher);
-  *num = 2;
-  add_unique(list, num, matcher);
-  *num = 3;
-  add_unique(list, num, matcher);
-
+  int *num1 = malloc(sizeof(Element));
+  *num1 = 1;
+  add_to_list(list,num1);
+  int *num2 = malloc(sizeof(Element));
+  *num2 = 4;
   printf("Should add num at last when num is not present\n");
-  *num = 4;
-  assert(add_unique(list, num , matcher));
-  assert(list->length == 4);
+  assert(add_unique(list,num2,matcher));
+  assert(list->length == 2);
   assert(*(int *)list->last->element == 4);
   printf("Passed\n");
 
   printf("Should not add num at last when num is present\n");
-  *num = 1;
-  assert(!add_unique(list, num, matcher));
-  assert(list->length == 4);
+  int *num3 = malloc(sizeof(Element));
+  *num3 = 1;
+  assert(!add_unique(list, num3, matcher));
+  assert(list->length == 2);
   assert(*(int *)list->last->element == 4);
   printf("Passed\n");
 };
@@ -420,5 +449,6 @@ int main(void){
   assert_remove_from_end();
   assert_remove_at();
   assert_remove_first_occurrence();
+  assert_remove_all_occurrences();
   return  0;
 }

@@ -64,6 +64,10 @@ Status insert_at(List_ptr list, Element element, int position) {
     return Success;
 };
 
+Status is_equal(Element num1, Element num2){
+  return *( int *)num1 == *(int *)num2;
+};
+
 Status add_unique(List_ptr list, Element value, Matcher matcher){
   if(is_value_present(list, value, matcher)) return Failure;
   return insert_at(list,value,list->length);
@@ -75,10 +79,6 @@ Status add_to_list(List_ptr list, Element value) {
 
 Status add_to_start(List_ptr list, Element value) {
   return insert_at(list, value, 0);
-};
-
-Status is_equal(Element num1, Element num2){
-  return *( int *)num1 == *(int *)num2;
 };
 
 Element remove_at(List_ptr list, int position){
@@ -144,7 +144,6 @@ List_ptr map(List_ptr list, Mapper mapper){
   return new_list;
 };
 
-
 Status is_even(void *value) {
   return !(*(int *)value % 2);
 };
@@ -191,6 +190,30 @@ void forEach(List_ptr list, ElementProcessor processor) {
   }
 };
 
+Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher) {
+  Node_ptr p_walk = list->first;
+  int position = 0;
+  while(p_walk != NULL) {
+    Status is_succeed = (*matcher)(p_walk->element, element);
+    if(is_succeed) return remove_at(list,position);
+    p_walk = p_walk->next;
+    position++; 
+  }
+  return NULL;
+};
+
+List_ptr remove_all_occurrences(List_ptr list, Element element, Matcher matcher){
+  List_ptr result = create_list();
+  Node_ptr p_walk = list->first;
+  while(p_walk != NULL) {
+    Element new_element = remove_first_occurrence(list,element,matcher);
+    if(new_element == NULL) break;
+    add_to_list(result,new_element);
+    p_walk = p_walk->next;
+  }
+  return result;
+};
+
 Status clear_list( List_ptr list){
   Node_ptr p_walk = list->first;
   Node_ptr element_to_free = NULL;
@@ -204,18 +227,6 @@ Status clear_list( List_ptr list){
   list->last = NULL;
   list->length = 0;
   return Success;
-};
-
-Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher) {
-  Node_ptr p_walk = list->first;
-  int position = 0;
-  while(p_walk != NULL) {
-    Status is_succeed = (*matcher)(p_walk->element, element);
-    if(is_succeed) return remove_at(list,position);
-    p_walk = p_walk->next;
-    position++; 
-  }
-  return NULL;
 };
 
 void display_list(List_ptr list){
