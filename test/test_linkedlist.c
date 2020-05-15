@@ -83,6 +83,47 @@ void assert_remove_at(void) {
   printf("Passed\n");
 };
 
+void assert_remove_from_start(void) {
+  printf("Remove_From_Start\n");
+  List_ptr list = create_list();
+
+  printf("Should return null when list is empty\n");
+  assert(!remove_from_start(list));
+  assert(list->length == 0);
+  printf("Passed\n");
+
+  printf("should remove first num in a single list\n");
+  int *num = malloc(sizeof(Element));
+  *num = 5;
+  add_to_list(list,num);
+  assert(remove_from_start(list) == num);
+  assert(list->length == 0);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  printf("Passed\n");
+
+  printf("should remove first num from the list\n");
+  *num = 2;
+  add_to_list(list, num);
+  assert(*(int *)remove_from_start(list) == 2);
+  assert(list->length == 0);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  printf("Passed\n");
+
+  printf("should remove first num from list when many nums are present\n");
+  int *number = malloc(sizeof(Element));
+  *number = 3;
+  insert_at(list, number, 0);
+  *num = 4;
+  insert_at(list, num, 1);
+  assert(remove_from_start(list) == number);
+  assert(list->length == 1);
+  assert(*(int *)list->last->element== 4);
+  assert(*(int *)list->first->element == 4);
+  printf("Passed\n");
+};
+
 void assert_remove_from_end(void) {
   printf("Remove_From_End\n");
   List_ptr list = create_list();
@@ -247,47 +288,6 @@ void assert_reverse( void ){
   assert(*( int *)result->first->element == 3);
   assert(*( int *)result->first->next->element == 2);
   assert(*( int *)result->last->element == 1);
-  printf("Passed\n");
-};
-
-void assert_remove_from_start(void) {
-  printf("Remove_From_Start\n");
-  List_ptr list = create_list();
-
-  printf("Should return null when list is empty\n");
-  assert(!remove_from_start(list));
-  assert(list->length == 0);
-  printf("Passed\n");
-
-  printf("should remove first num in a single list\n");
-  int *num = malloc(sizeof(Element));
-  *num = 5;
-  add_to_list(list,num);
-  assert(*(int *)remove_from_start(list) == 5);
-  assert(list->length == 0);
-  assert(list->first == NULL);
-  assert(list->last == NULL);
-  printf("Passed\n");
-
-  printf("should remove first num from the list\n");
-  *num = 2;
-  add_to_list(list, num);
-  assert(*(int *)remove_from_start(list) == 2);
-  assert(list->length == 0);
-  assert(list->first == NULL);
-  assert(list->last == NULL);
-  printf("Passed\n");
-
-  printf("should remove first num from list when many nums are present\n");
-  *num = 3;
-  insert_at(list, num, 0);
-  *num = 4;
-  insert_at(list, num, 1);
-  Element value = remove_from_start(list);
-  assert(*(int *)value == 3);
-  assert(list->length == 1);
-  assert(*(int *)list->last->element== 4);
-  assert(*(int *)list->first->element == 4);
   printf("Passed\n");
 };
 

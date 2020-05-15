@@ -1,10 +1,8 @@
-#include<string.h>
 #include "linkedlist.h"
 
 Node_ptr create_node(Element element){
   Node_ptr node = malloc(sizeof(Node));
-  node->element = malloc(sizeof(Element));
-  memcpy(node->element, element, sizeof(Element));
+  node->element = element;
   node->next = NULL;
   return node;
 };
